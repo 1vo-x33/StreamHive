@@ -1,10 +1,32 @@
 <?php
 
-namespace App\Models;
+class Video {
+    private $db;
 
-class Video
-{
-    public function __construct()
-    {
+    public function __construct() {
+        $this->db = Database::getInstance();
+    }
+
+    public function findById($id) {
+        return $this->db->fetchOne("SELECT * FROM videos WHERE id = :id", [':id' => $id]);
+    }
+
+    public function findAll() {
+        return $this->db->fetchAll("SELECT * FROM videos");
+    }
+
+    public function save($data) {
+        $this->db->query("INSERT INTO videos (user_id, title, description, filename, views) VALUES (:user_id, :title, :description, :filename, :views)", [
+            ':user_id' => $data['user_id'],
+            ':title' => $data['title'],
+            ':description' => $data['description'],
+            ':filename' => $data['filename']
+        ]);
+    }
+
+    public function delete($id) {
+        $this->db->query("DELETE FROM videos WHERE id = :id", [':id' => $id]);
     }
 }
+
+?>
