@@ -1,10 +1,43 @@
 <?php
-
-namespace App\Services;
+require_once '../models/User.php';
 
 class AuthService
 {
+    private $db;
+    private $user;
+
     public function __construct()
     {
+        $this->db = Database::getInstance();
+        $this->user = new User();
     }
+
+    public function register($data)
+    {
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $this->user->save($data);
+
+        $newUser = $this->user->findByEmail($data['email']);
+
+        session_start();
+        $_SESSION['id'] = $newUser['id'];
+        $_SESSION['role'] = $newUser['role'];
+
+        return $newUser;
+    }
+
+    public function login($email, $password) {
+    $user = $this->user->findByEmail($data);
+    
+    if (!$user || !password_verify($????, $user['????'])) {
+        return false;
+    }
+    
+    session_start();
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['role'] = $user['role'];
+    
+    return $user;
 }
+}
+
