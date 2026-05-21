@@ -27,9 +27,9 @@ class AuthService
     }
 
     public function login($email, $password) {
-    $user = $this->user->findByEmail($data);
+    $user = $this->user->findByEmail($email);
     
-    if (!$user || !password_verify($????, $user['????'])) {
+    if (!$user || !password_verify($password, $user['password'])) {
         return false;
     }
     
@@ -38,6 +38,12 @@ class AuthService
     $_SESSION['role'] = $user['role'];
     
     return $user;
-}
+    }
+    public function logout() {
+    session_start();
+    session_destroy();
+    }
+    
+    
 }
 
