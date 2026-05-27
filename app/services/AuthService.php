@@ -44,6 +44,12 @@ class AuthService
     session_destroy();
     }
     
-    
+    public function currentUser() {
+    session_start();
+    if (isset($_SESSION['id'])) {
+        return $this->user->findById($_SESSION['id']);
+    }
+    return null;
+}
 }
 
