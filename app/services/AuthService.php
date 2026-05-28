@@ -1,6 +1,5 @@
 <?php
-require_once '../models/User.php';
-
+require_once __DIR__ . '/../models/User.php';
 class AuthService
 {
     private $db;
@@ -18,6 +17,7 @@ class AuthService
         $this->user->save($data);
 
         $newUser = $this->user->findByEmail($data['email']);
+        
 
         session_start();
         $_SESSION['id'] = $newUser['id'];
@@ -25,6 +25,7 @@ class AuthService
 
         return $newUser;
     }
+
 
     public function login($email, $password) {
     $user = $this->user->findByEmail($email);
