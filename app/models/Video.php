@@ -16,8 +16,7 @@ class Video {
     }
 
     public function save($data) {
-        $this->db->query("INSERT INTO videos (user_id, title, description, filename, views) VALUES (:user_id, :title, :description, :filename, :views)", [
-            ':user_id' => $data['user_id'],
+            $this->db->query("INSERT INTO videos (user_id, title, description, filename) VALUES (:user_id, :title, :description, :filename)", [            ':user_id' => $data['user_id'],
             ':title' => $data['title'],
             ':description' => $data['description'],
             ':filename' => $data['filename']
