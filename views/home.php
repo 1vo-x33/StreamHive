@@ -21,6 +21,7 @@
                 <h2><?php echo htmlspecialchars($video['title']); ?></h2> 
                  <!-- prevents XSS attacks by escaping special characters from user input -->
                 <p><?php echo htmlspecialchars($video['description']); ?></p>
+                <p>Geüpload door: <?php echo htmlspecialchars($video['email']); ?></p>
                 <a href="/streamhive/public/index.php?action=video&id=<?php echo $video['id']; ?>">Bekijken</a>
             </div>
         <?php endforeach; ?>
