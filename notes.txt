@@ -1,0 +1,39 @@
+Model — talks to the database
+Only job is storing and fetching data. Nothing else.
+php// Comment.php
+public function save($data) {
+    $this->db->query("INSERT INTO comments ...");
+}
+It doesn't know about forms, sessions, or logic. Just SQL.
+
+Service — handles the logic
+Sits between the controller and model. Does the thinking.
+php// CommentService.php
+public function add($data) {
+    return $this->comment->save($data);
+}
+In a more complex app the service might validate the data, check permissions, send emails etc. It tells the model what to do but doesn't touch the database directly.
+
+Controller — handles the HTTP request
+Receives data from the browser ($_POST, $_GET, $_SESSION), passes it to the service, then redirects or loads a view.
+php// CommentController.php
+public function store() {
+    $data = [
+        'user_id' => $_SESSION['id'],
+        'content' => $_POST['content']
+    ];
+    $this->commentService->add($data);
+    header('Location: ...');
+}
+It doesn't touch the database or write SQL. Just coordinates.
+
+The flow in one line:
+Browser → Controller → Service → Model → Database
+Each layer has one job and doesn't do the other's job. That's the "separation of responsibilities" your assignment keeps mentioning.    
+
+So in project:
+
+CommentController = waiter
+CommentService = chef
+Comment model = ingredients
+MySQL = kitchen storage

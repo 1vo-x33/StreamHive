@@ -11,7 +11,11 @@ class Video
 
     public function findById($id)
     {
-        return $this->db->fetchOne("SELECT * FROM videos WHERE id = :id", [':id' => $id]);
+        // Join users so we also get the uploader's email (used by the video page).
+        return $this->db->fetchOne(
+            "SELECT videos.*, users.email FROM videos JOIN users ON videos.user_id = users.id WHERE videos.id = :id",
+            [':id' => $id]
+        );
     }
 
     public function findAll()

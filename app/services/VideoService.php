@@ -36,8 +36,30 @@ class VideoService
         return $this->video->findById($id);
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         return $this->video->delete($id);
+    }
+
+    // Toggle like — if already liked, unlike. If not liked, like.
+    public function toggleLike($userId, $videoId)
+    {
+        $like = new Like();
+        $existing = $like->findByUserAndVideo($userId, $videoId);
+
+        if ($existing) {
+            // already liked, so unlike
+            $like->delete($userId, $videoId);
+        } else {
+            // not liked yet, so like
+            $like->save(['user_id' => $userId, 'video_id' => $videoId]);
+        }
+    }
+
+    // Get total likes for a video
+    public function getLikeCount($videoId)
+    {
+        $like = new Like();
+        return $like->countByVideo($videoId);
     }
 }

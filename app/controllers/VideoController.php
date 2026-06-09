@@ -18,12 +18,23 @@ class VideoController
         require_once '../views/home.php';
     }
 
+    // Shows a single video page for the given video id.
     public function show($id)
     {
-        //get one video by id
+        // Start the session so we can check who is logged in (used by the view).
+        session_start();
+
+        // Ask the service for this one video's data.
         $video = $this->videoService->getById($id);
 
-        //load views/video.php
+        // Also get all the comments that belong to this video.
+        $commentService = new CommentService();
+        $comments = $commentService->getByVideo($id);
+
+        // Get how many likes this video has.
+        $likeCount = $this->videoService->getLikeCount($id);
+
+        // Load the page. $video, $comments and $likeCount can be used inside video.php.
         require_once '../views/video.php';
     }
 
@@ -52,6 +63,13 @@ class VideoController
     {
         $this->videoService->delete($id);
         header('Location: /streamhive/public/index.php');
+    }
+
+    // Handle like toggle and redirect back to video
+    public function toggleLike($userId, $videoId)
+    {
+        $this->videoService->toggleLike($userId, $videoId);
+        header('Location: /streamhive/public/index.php?action=video&id=' . $videoId);
     }
 }
 
