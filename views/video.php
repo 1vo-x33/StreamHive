@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Video - StreamHive</title>
+    <link rel="stylesheet" href="/streamhive/public/css/style.css">
 </head>
-<body>
+<body class="video-page">
     <nav>
-        <a href="/streamhive/public/index.php">Home</a>
+        <a href="/streamhive/public/index.php">StreamHive 🐝</a>
         <a href="/streamhive/public/index.php?action=upload">Upload</a>
         <a href="/streamhive/public/index.php?action=logout">Uitloggen</a>
     </nav>
@@ -19,15 +20,28 @@
         <source src="/streamhive/public/uploads/<?php echo $video['filename']; ?>" type="video/mp4">
     </video>
 
-    <p>Geüpload op: <?php echo $video['created_at']; ?></p>
+    <!-- Small info pills: upload date, views, likes and category. -->
+    <div class="badges">
+        <span class="badge">📅 <?php echo $video['created_at']; ?></span>
+        <span class="badge">👁️ <?php echo $video['views']; ?> keer bekeken</span>
+        <span class="badge">❤️ <?php echo $likeCount; ?> likes</span>
+        <!-- Categories this video belongs to. $categories comes from VideoController::show(). -->
+        <span class="badge">🏷️
+            <?php if (empty($categories)): ?>
+                geen categorie
+            <?php else: ?>
+                <?php foreach ($categories as $category): ?>
+                    <?php echo htmlspecialchars($category['name']); ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </span>
+    </div>
 
-    <!-- Like button -->
-    <p>❤️ <?php echo $likeCount; ?> likes</p>
-    <a href="/streamhive/public/index.php?action=like&video_id=<?php echo $video['id']; ?>">
-        Like / Unlike
-    </a>
-
-    <a href="/streamhive/public/index.php?action=delete&id=<?php echo $video['id']; ?>">Verwijderen</a>
+    <!-- Like / delete actions -->
+    <p>
+        <a class="btn" href="/streamhive/public/index.php?action=like&video_id=<?php echo $video['id']; ?>">❤️ Like / Unlike</a>
+        <a class="btn btn-danger" href="/streamhive/public/index.php?action=delete&id=<?php echo $video['id']; ?>">Verwijderen</a>
+    </p>
 
     <hr>
 
@@ -48,7 +62,7 @@
         <p>Nog geen reacties.</p>
     <?php else: ?>
         <?php foreach ($comments as $comment): ?>
-            <div>
+            <div class="comment">
                 <strong><?php echo htmlspecialchars($comment['email']); ?></strong>
                 <p><?php echo htmlspecialchars($comment['content']); ?></p>
                 <small><?php echo $comment['created_at']; ?></small>

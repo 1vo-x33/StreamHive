@@ -5,6 +5,7 @@ require_once '../app/models/User.php';
 require_once '../app/models/Video.php';
 require_once '../app/models/Comment.php';
 require_once '../app/models/Like.php';
+require_once '../app/models/Category.php';
 require_once '../app/services/AuthService.php';
 require_once '../app/services/VideoService.php';
 require_once '../app/services/CommentService.php';
@@ -37,8 +38,8 @@ if ($action == 'register') {
         // form submitted, process the upload
         $videoController->store();
     } else {
-        // just show the upload form
-        require_once '../views/upload.php';
+        // just show the upload form (with categories for the dropdown)
+        $videoController->create();
     }
 } else if ($action == 'video') {
     // show single video page

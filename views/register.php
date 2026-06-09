@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Registreren - StreamHive</title>
+    <link rel="stylesheet" href="/streamhive/public/css/style.css">
 </head>
-<body>
-    <h1>Registreren</h1>
+<body class="auth">
+    <h1>StreamHive 🐝</h1>
+    <h2>Registreren</h2>
 
     <form method="POST" action="/streamhive/public/index.php?action=register">
         <label>Email</label>

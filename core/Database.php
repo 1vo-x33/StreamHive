@@ -37,6 +37,11 @@ class Database {
         $stmt->execute($params);
         return $stmt;
     }
+
+    // Returns the id of the row that was just inserted (e.g. a new video).
+    public function lastInsertId() {
+        return $this->pdo->lastInsertId();
+    }
 }
 
 ?>

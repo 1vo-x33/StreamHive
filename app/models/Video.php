@@ -32,6 +32,15 @@ class Video
             ':description' => $data['description'],
             ':filename' => $data['filename']
         ]);
+
+        // Return the id of the video we just created so the caller can link a category to it.
+        return $this->db->lastInsertId();
+    }
+
+    // Adds 1 to the view count of a video. Called each time someone opens the video page.
+    public function incrementViews($id)
+    {
+        $this->db->query("UPDATE videos SET views = views + 1 WHERE id = :id", [':id' => $id]);
     }
 
     public function delete($id)

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload Video - StreamHive</title>
+    <link rel="stylesheet" href="/streamhive/public/css/style.css">
 </head>
 <body>
     <nav>
-        <a href="/streamhive/public/index.php">Home</a>
+        <a href="/streamhive/public/index.php">StreamHive 🐝</a>
         <a href="/streamhive/public/index.php?action=upload">Upload</a>
         <a href="/streamhive/public/index.php?action=logout">Uitloggen</a>
     </nav>
@@ -20,6 +21,15 @@
 
         <label>Beschrijving</label>
         <textarea name="description"></textarea>
+
+        <!-- Category dropdown. $categories comes from VideoController::create(). -->
+        <label>Categorie</label>
+        <select name="category_id">
+            <option value="">-- Kies een categorie --</option>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></option>
+            <?php endforeach; ?>
+        </select>
 
         <label>Video bestand</label>
         <input type="file" name="video" accept="video/*" required>
